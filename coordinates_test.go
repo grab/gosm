@@ -1,20 +1,6 @@
-// Copyright (c) 2012-2021 Grabtaxi Holdings PTE LTD (GRAB), All Rights Reserved. NOTICE: All information contained herein
-// is, and remains the property of GRAB. The intellectual and technical concepts contained herein are confidential, proprietary
-// and controlled by GRAB and may be covered by patents, patents in process, and are protected by trade secret or copyright law.
-//
-// You are strictly forbidden to copy, download, store (in any medium), transmit, disseminate, adapt or change this material
-// in any way unless prior written permission is obtained from GRAB. Access to the source code contained herein is hereby
-// forbidden to anyone except current GRAB employees or contractors with binding Confidentiality and Non-disclosure agreements
-// explicitly covering such access.
-//
-// The copyright notice above does not evidence any actual or intended publication or disclosure of this source code,
-// which includes information that is confidential and/or proprietary, and is a trade secret, of GRAB.
-//
-// ANY REPRODUCTION, MODIFICATION, DISTRIBUTION, PUBLIC PERFORMANCE, OR PUBLIC DISPLAY OF OR THROUGH USE OF THIS SOURCE
-// CODE WITHOUT THE EXPRESS WRITTEN CONSENT OF GRAB IS STRICTLY PROHIBITED, AND IN VIOLATION OF APPLICABLE LAWS AND
-// INTERNATIONAL TREATIES. THE RECEIPT OR POSSESSION OF THIS SOURCE CODE AND/OR RELATED INFORMATION DOES NOT CONVEY
-// OR IMPLY ANY RIGHTS TO REPRODUCE, DISCLOSE OR DISTRIBUTE ITS CONTENTS, OR TO MANUFACTURE, USE, OR SELL ANYTHING
-// THAT IT MAY DESCRIBE, IN WHOLE OR IN PART.
+// Copyright 2021 Grabtaxi Holdings Pte Ltd (GRAB), All rights reserved.
+
+// Use of this source code is governed by an MIT-style license that can be found in the LICENSE file
 
 package gosm
 
@@ -32,7 +18,6 @@ func TestDeltaEncodeWithFixedGranularity(t *testing.T) {
 		expectedInts     []int64
 	}{
 		{
-			//https://map.grab.com/?place=0.002346%2C0.002345%20#17/0.002345/0.002346
 			inputFn:          []float64{0.002345, 0.002346},
 			inputGranularity: int32(1000),
 			expetectOffset:   int64(2345000),
@@ -57,7 +42,6 @@ func TestDeltaEncodeWithFixedGranularity(t *testing.T) {
 			expectedInts:     []int64{100765507, 100765407, 0},
 		},
 		{
-			//https://map.grab.com/?place=0.002346%2C0.002345%20#17/0.002345/0.002346
 			inputFn:          []float64{0.002345, 0.002346},
 			inputGranularity: int32(100),
 			expetectOffset:   int64(2345000),
@@ -85,13 +69,7 @@ func TestDeltaEncodeCoordinates(t *testing.T) {
 		expectedDeltaLngs   []int64
 	}{
 		{
-			//https://map.grab.com/?place=1.3159375599949470%2C1.3436963896736138%20#17/1.3436963896736138/1.3159375599949470
-			//https://map.grab.com/?place=1.3309222648360457%2C1.3306006657420268%20#17/1.3306006657420268/1.3309222648360457
-			//https://map.grab.com/?place=1.3307062250574480%2C1.3334369543955960%20#17/1.3334369543955960/1.3307062250574480
 			lats: []float64{1.3334369543955960, 1.3307062250574480, 1.3306006657420268, 1.3309222648360457, 1.3436963896736138, 1.3159375599949470, 1.3158660081205550},
-			//https://map.grab.com/?place=103.7315496138722800%2C103.7352140139293800%20#17/103.7352140139293800/103.7315496138722800
-			//https://map.grab.com/?place=103.8892271364421200%2C103.8883285932482200%20#17/103.8883285932482200/103.8892271364421200
-			//https://map.grab.com/?place=103.8889361238400400%2C103.9152950162963500%20#17/103.9152950162963500/103.8889361238400400
 			lngs:                []float64{103.9152950162963500, 103.8889361238400400, 103.8883285932482200, 103.8892271364421200, 103.7352140139293800, 103.7315496138722800, 103.7318148345315200},
 			expectedGranularity: 1,
 			expectedLatOffset:   1315866008,

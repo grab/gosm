@@ -1,20 +1,6 @@
-// Copyright (c) 2012-2021 Grabtaxi Holdings PTE LTD (GRAB), All Rights Reserved. NOTICE: All information contained herein
-// is, and remains the property of GRAB. The intellectual and technical concepts contained herein are confidential, proprietary
-// and controlled by GRAB and may be covered by patents, patents in process, and are protected by trade secret or copyright law.
-//
-// You are strictly forbidden to copy, download, store (in any medium), transmit, disseminate, adapt or change this material
-// in any way unless prior written permission is obtained from GRAB. Access to the source code contained herein is hereby
-// forbidden to anyone except current GRAB employees or contractors with binding Confidentiality and Non-disclosure agreements
-// explicitly covering such access.
-//
-// The copyright notice above does not evidence any actual or intended publication or disclosure of this source code,
-// which includes information that is confidential and/or proprietary, and is a trade secret, of GRAB.
-//
-// ANY REPRODUCTION, MODIFICATION, DISTRIBUTION, PUBLIC PERFORMANCE, OR PUBLIC DISPLAY OF OR THROUGH USE OF THIS SOURCE
-// CODE WITHOUT THE EXPRESS WRITTEN CONSENT OF GRAB IS STRICTLY PROHIBITED, AND IN VIOLATION OF APPLICABLE LAWS AND
-// INTERNATIONAL TREATIES. THE RECEIPT OR POSSESSION OF THIS SOURCE CODE AND/OR RELATED INFORMATION DOES NOT CONVEY
-// OR IMPLY ANY RIGHTS TO REPRODUCE, DISCLOSE OR DISTRIBUTE ITS CONTENTS, OR TO MANUFACTURE, USE, OR SELL ANYTHING
-// THAT IT MAY DESCRIBE, IN WHOLE OR IN PART.
+// Copyright 2021 Grabtaxi Holdings Pte Ltd (GRAB), All rights reserved.
+
+// Use of this source code is governed by an MIT-style license that can be found in the LICENSE file
 
 package gosm
 
@@ -56,7 +42,6 @@ func TestWriteNodes(t *testing.T) {
 	nodes := []*Node{
 		{
 			ID: 7278995748,
-			//https://map.grab.com/?place=112.6773289%2C-7.2380901%20#17/-7.2380901/112.6773289
 			Latitude:  -7.2380901,
 			Longitude: 112.6773289,
 			Tags: map[string]string{
@@ -66,13 +51,11 @@ func TestWriteNodes(t *testing.T) {
 		},
 		{
 			ID: 6978510772,
-			//https://map.grab.com/?place=112.6775354%2C-7.2381273%20#17/-7.2381273/112.6775354
 			Latitude:  -7.2381273,
 			Longitude: 112.6775354,
 		},
 		{
 			ID: 6978510773,
-			//https://map.grab.com/?place=112.6782548%2C-7.2383685%20#17/-7.2383685/112.6782548
 			Latitude:  -7.2383685,
 			Longitude: 112.6782548,
 			Tags: map[string]string{
@@ -84,7 +67,6 @@ func TestWriteNodes(t *testing.T) {
 		},
 		{
 			ID: 6978510774,
-			//https://map.grab.com/?place=112.6734548%2C-7.2383445%20#17/-7.2383445/112.6734548
 			Latitude:  -7.2383445,
 			Longitude: 112.6734548,
 			Tags: map[string]string{
