@@ -38,7 +38,7 @@ func (t *stringTable) endOne() {
 	t.all = append(t.all, "##")
 }
 
-// toKeysVals is used in DenseNodes
+// toKeysVals is used in DenseNodes.
 func (t *stringTable) toKeysVals() []int32 {
 	var result []int32
 	for _, s := range t.all {
@@ -78,7 +78,7 @@ func (t *stringTable) append(str string) uint32 {
 	return uint32(idx)
 }
 
-// used in relations
+// used in relations.
 func (t *stringTable) addRoles(roles []string) []int32 {
 	result := make([]int32, len(roles))
 	for i, role := range roles {

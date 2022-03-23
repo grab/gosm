@@ -13,7 +13,7 @@ import (
 	"os"
 	"sync"
 
-	"github.com/gogo/protobuf/proto"
+	"github.com/golang/protobuf/proto"
 	"github.com/pkg/errors"
 
 	"gosm/gosmpb"
@@ -65,7 +65,7 @@ type NewEncoderRequiredInput struct {
 	Writer           io.WriteCloser
 }
 
-// NewEncoder initializes an OSM encoder
+// NewEncoder initializes an OSM encoder.
 func NewEncoder(input *NewEncoderRequiredInput, opts ...Option) *Encoder {
 	encoder := &Encoder{
 		requiredFeatures: input.RequiredFeatures,
@@ -111,7 +111,7 @@ func (e *Encoder) processMembers(membersBufChan chan members, flushChan chan cha
 
 	for {
 		select {
-		//flush data below defaultLimitNumberInOnePrimitiveGroup
+		// flush data below defaultLimitNumberInOnePrimitiveGroup
 		case done, ok := <-flushChan:
 			if !ok {
 				return
@@ -138,7 +138,7 @@ func (e *Encoder) processMembers(membersBufChan chan members, flushChan chan cha
 }
 
 // Start will write the header file to the writer and
-// start consuming data channel and write to the writer
+// start consuming data channel and write to the writer.
 func (e *Encoder) Start() (chan error, error) {
 	e.errWg.Add(1)
 	go func() {
@@ -156,7 +156,6 @@ func (e *Encoder) Start() (chan error, error) {
 			if err := e.encodeBlockToBlob(encodedBlob, blobTypeData); err != nil {
 				e.errs <- errors.WithMessagef(err, "encode data block")
 			}
-
 		}
 	}()
 	e.wg.Add(3)
@@ -186,7 +185,7 @@ func (e *Encoder) Start() (chan error, error) {
 	return e.errs, nil
 }
 
-// Close will stop consuming the channel and close the writer
+// Close will stop consuming the channel and close the writer.
 func (e *Encoder) Close() error {
 	defer func() {
 		if res := recover(); res != nil {
@@ -229,7 +228,7 @@ func (e *Encoder) Flush(memberType MemberType) {
 }
 
 // encodeBlockToBlob wraps the encoded data into blob and write blob header length, blob header and blob to writer
-// return n bytes written and error
+// return n bytes written and error.
 func (e *Encoder) encodeBlockToBlob(p []byte, blobType string) error {
 	blob := &gosmpb.Blob{}
 	blob.RawSize = countInt32LenOfBytes(p)
@@ -237,10 +236,10 @@ func (e *Encoder) encodeBlockToBlob(p []byte, blobType string) error {
 		var b bytes.Buffer
 		w := zlib.NewWriter(&b)
 		if _, err := w.Write(p); err != nil {
-			return errors.WithMessagef(err, "compress block")
+			return errors.WithMessage(err, "compress block")
 		}
 		if err := w.Close(); err != nil {
-			return errors.WithMessagef(err, "close zlib writer")
+			return errors.WithMessage(err, "close zlib writer")
 		}
 		blob.ZlibData = b.Bytes()
 	} else {
@@ -248,7 +247,7 @@ func (e *Encoder) encodeBlockToBlob(p []byte, blobType string) error {
 	}
 	encodedBlob, err := proto.Marshal(blob)
 	if err != nil {
-		return errors.WithMessagef(err, "marshal blob")
+		return errors.WithMessage(err, "marshal blob")
 	}
 
 	blobHeader := &gosmpb.BlobHeader{
@@ -257,20 +256,20 @@ func (e *Encoder) encodeBlockToBlob(p []byte, blobType string) error {
 	}
 	encodedBlobHeader, err := proto.Marshal(blobHeader)
 	if err != nil {
-		return errors.WithMessagef(err, "marshal blob header")
+		return errors.WithMessage(err, "marshal blob header")
 	}
 
 	blobHeaderSize := uint32(len(encodedBlobHeader))
 	headerLengthInNetworkByte := make([]byte, 4) // uint32 takes 4 bytes
 	binary.BigEndian.PutUint32(headerLengthInNetworkByte, blobHeaderSize)
 	if _, err = e.writer.Write(headerLengthInNetworkByte); err != nil {
-		return errors.WithMessagef(err, "write header length")
+		return errors.WithMessage(err, "write header length")
 	}
 	if _, err = e.writer.Write(encodedBlobHeader); err != nil {
-		return errors.WithMessagef(err, "write blob header")
+		return errors.WithMessage(err, "write blob header")
 	}
 	if _, err = e.writer.Write(encodedBlob); err != nil {
-		return errors.WithMessagef(err, "write blob")
+		return errors.WithMessage(err, "write blob")
 	}
 	return nil
 }
