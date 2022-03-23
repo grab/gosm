@@ -15,7 +15,7 @@ type logger interface {
 // Option ...
 type Option func(e *Encoder)
 
-// WithLogger will set a logger
+// WithLogger will set a logger.
 func WithLogger(l logger) Option {
 	return func(e *Encoder) {
 		e.logger = l

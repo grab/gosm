@@ -40,7 +40,7 @@ func (e *Encoder) AppendRelations(relations []*Relation) {
 	}
 }
 
-// relationMembers implements members
+// relationMembers implements members.
 type relationMembers struct {
 	rs []*Relation
 }

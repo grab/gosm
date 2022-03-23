@@ -17,19 +17,19 @@ type Node struct {
 }
 
 // AppendNodes will append nodes to the buffer, when it meets the limit(8000 entities or 32MB)
-// it will convert the nodes to dense nodes and write to the writer
+// it will convert the nodes to dense nodes and write to the writer.
 func (e *Encoder) AppendNodes(nodes []*Node) {
 	e.nodesBuf <- &nodeMembers{
 		ns: nodes,
 	}
 }
 
-// nodeMembers implements members
+// nodeMembers implements members.
 type nodeMembers struct {
 	ns []*Node
 }
 
-// we will simplify the design
+// we will simplify the design.
 func (n *nodeMembers) toPrimitiveBlock() (*gosmpb.PrimitiveBlock, error) {
 	st := newStringTable()
 	lats := make([]float64, len(n.ns))
@@ -77,8 +77,7 @@ func (n *nodeMembers) clear() {
 }
 
 func (n *nodeMembers) appendMembers(m members) {
-	n1, ok := m.(*nodeMembers)
-	if ok {
+	if n1, ok := m.(*nodeMembers); ok {
 		n.ns = append(n.ns, n1.ns...)
 	}
 }

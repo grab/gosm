@@ -20,7 +20,7 @@ func (e *Encoder) AppendWays(ways []*Way) {
 	}
 }
 
-// wayMembers implements members
+// wayMembers implements members.
 type wayMembers struct {
 	ws []*Way
 }

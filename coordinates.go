@@ -6,8 +6,8 @@ package gosm
 
 // latitude  = .000000001 * (lat_offset + (granularity * lat))
 // longitude = .000000001 * (lon_offset + (granularity * lon))
-func deltaEncodeCoordinates(lats []float64, lngs []float64) (granularity int32, latOffset int64, lngOffset int64, deltaLats []int64, deltaLngs []int64) {
-	l := append(lats, lngs...)
+func deltaEncodeCoordinates(lats, lngs []float64) (granularity int32, latOffset, lngOffset int64, deltaLats, deltaLngs []int64) {
+	l := append(append([]float64{}, lats...), lngs...)
 	if len(l) == 0 {
 		return 0, 0, 0, nil, nil
 	}
@@ -17,8 +17,8 @@ func deltaEncodeCoordinates(lats []float64, lngs []float64) (granularity int32, 
 		g := int64(1)
 		for {
 			if a/10*10 == a {
-				g = g * 10
-				a = a / 10
+				g *= 10
+				a /= 10
 			} else {
 				break
 			}
