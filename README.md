@@ -1,7 +1,43 @@
 # gosm
 gosm is a golang library which implements writing [OSM pbf](https://wiki.openstreetmap.org/wiki/PBF_Format) files.
 
-# How to use?
+# Usage?
+## Quick start
+```
+	// initialize an encoder
+	wc := &myWriter{}
+	encoder := NewEncoder(&NewEncoderRequiredInput{
+		RequiredFeatures: []string{"OsmSchema-V0.6"},
+		Writer:           wc,
+	},
+		WithWritingProgram("example"),
+		WithZlipEnabled(false),
+	)
+	errChan, err := encoder.Start()
+
+	// write some nodes
+	nodes := []*Node{
+		{
+			ID: 7278995748,
+			Latitude:  -7.2380901,
+			Longitude: 112.6773289,
+			Tags: map[string]string{
+				"node": "node1",
+				"erp":  "no",
+			},
+		},
+		{
+			ID: 6978510772,
+			Latitude:  -7.2381273,
+			Longitude: 112.6775354,
+		},
+	}
+	encoder.AppendNodes(nodes)
+	encoder.Close()
+
+
+
+## End to end demo
 This is not a fully runnable code, would like to demo how to use the library.
 
 You can replace oriNodes, oriWays, oriRelations with your own data.
@@ -10,7 +46,7 @@ You can replace oriNodes, oriWays, oriRelations with your own data.
 		RequiredFeatures: []string{"OsmSchema-V0.6", "DenseNodes"},
 		Writer:           f,
 	},
-		gosm.WithWritingProgram("map-factory"),
+		gosm.WithWritingProgram("wp1"),
 		gosm.WithZlipEnabled(true),
 	)
 	defer func() {
