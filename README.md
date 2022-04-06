@@ -1,9 +1,11 @@
-# gosm
-gosm is a golang library which implements writing [OSM pbf](https://wiki.openstreetmap.org/wiki/PBF_Format) files. The initial idea is that when we use osmosis tool to dump data from database to pbf file, it causes high load of the database during that time. We need to maintain a large size of database just for the dump. For osmosis, we do not have control on how to query the database, so we implemented this library in golang. With this library, we can do the database query by ourselves during the data dump phase and we managed to reduce half size of the original database to finish the data dump.
+# Gosm
+Gosm is a golang library which implements writing [OSM pbf](https://wiki.openstreetmap.org/wiki/PBF_Format) files. The initial idea is that when we use osmosis tool to dump data from database to pbf file, it causes high load of the database during that time. We need to maintain a large size of database just for the dump. For osmosis, we do not have control on how to query the database, so we implemented this library in golang. With this library, we can do the database query by ourselves during the data dump phase and we managed to reduce half size of the original database to finish the data dump.
 
 So if you are looking for a full control during the data dump in your golang code, gosm is your choice. 
 This is running in our production usage and under a stable version right now.
 
+# Installation
+`go get github/grab/gosm`
 # Usage
 ## Quick start
 ```
@@ -156,6 +158,15 @@ You can replace oriNodes, oriWays, oriRelations with your own data.
 		...
 	}
 ```
+
 # Notes
 1. When you use `AppendNodes`, `AppendWays` or `AppendRelations`, at most 8000 items are allowed in one append operation
 2. Use `encoder.Flush(memberType MemberType)` when you finished writing of one member type.
+
+# Contributing
+Please raise an issue with your problem or new ideas. MRs are not accepted so far.
+
+# License
+We are using MIT license. Please check [LICENSE.md](./LICENSE.md)
+
+
