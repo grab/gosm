@@ -1,5 +1,8 @@
 # gosm
-gosm is a golang library which implements writing [OSM pbf](https://wiki.openstreetmap.org/wiki/PBF_Format) files.
+gosm is a golang library which implements writing [OSM pbf](https://wiki.openstreetmap.org/wiki/PBF_Format) files. The initial idea is that when we use osmosis tool to dump data from database to pbf file, it causes high load of the database during that time. We need to maintain a large size of database just for the dump. For osmosis, we do not have control on how to query the database, so we implemented this library in golang. With this library, we can do the database query by ourselves during the data dump phase and we managed to reduce half size of the original database to finish the data dump.
+
+So if you are looking for a full control during the data dump in your golang code, gosm is your choice. 
+This is running in our production usage and under a stable version right now.
 
 # Usage
 ## Quick start
@@ -34,6 +37,7 @@ gosm is a golang library which implements writing [OSM pbf](https://wiki.openstr
 	}
 	encoder.AppendNodes(nodes)
 	encoder.Close()
+```
 
 
 
