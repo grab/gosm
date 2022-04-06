@@ -1,7 +1,7 @@
 # gosm
 gosm is a golang library which implements writing [OSM pbf](https://wiki.openstreetmap.org/wiki/PBF_Format) files.
 
-# Usage?
+# Usage
 ## Quick start
 ```
 	// initialize an encoder
