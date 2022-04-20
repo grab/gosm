@@ -15,7 +15,7 @@ import (
 	"sync"
 
 	"github.com/golang/protobuf/proto"
-	"gosm/gosmpb"
+	"github.com/grab/gosm/gosmpb"
 )
 
 const (

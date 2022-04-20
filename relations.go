@@ -4,7 +4,7 @@
 
 package gosm
 
-import "gosm/gosmpb"
+import "github.com/grab/gosm/gosmpb"
 
 // Relation is the struct for OSM relation.
 type Relation struct {

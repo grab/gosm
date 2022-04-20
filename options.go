@@ -5,7 +5,7 @@
 package gosm
 
 import (
-	"gosm/gosmpb"
+	"github.com/grab/gosm/gosmpb"
 )
 
 type logger interface {
