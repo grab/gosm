@@ -8,14 +8,13 @@ import (
 	"bytes"
 	"compress/zlib"
 	"encoding/binary"
+	"fmt"
 	"io"
 	"log"
 	"os"
 	"sync"
 
 	"github.com/golang/protobuf/proto"
-	"github.com/pkg/errors"
-
 	"gosm/gosmpb"
 )
 
@@ -101,7 +100,7 @@ func (e *Encoder) processMembers(membersBufChan chan members, flushChan chan cha
 		if appendedMembers != nil {
 			pgs, err := appendedMembers.toPrimitiveBlock()
 			if err != nil {
-				e.errs <- errors.WithMessagef(err, "flush %s", memberType)
+				e.errs <- fmt.Errorf("flush %s: %w", memberType, err)
 				return
 			}
 			e.writeBuf <- pgs
@@ -150,10 +149,10 @@ func (e *Encoder) Start() (chan error, error) {
 			}
 			encodedBlob, err := proto.Marshal(d)
 			if err != nil {
-				e.errs <- errors.WithMessagef(err, "marshal blob data")
+				e.errs <- fmt.Errorf("marshal blob data: %w", err)
 			}
 			if err := e.encodeBlockToBlob(encodedBlob, blobTypeData); err != nil {
-				e.errs <- errors.WithMessagef(err, "encode data block")
+				e.errs <- fmt.Errorf("encode data block :%w", err)
 			}
 		}
 	}()
@@ -175,11 +174,11 @@ func (e *Encoder) Start() (chan error, error) {
 	}
 	encodedHeader, err := proto.Marshal(header)
 	if err != nil {
-		return nil, errors.WithMessagef(err, "marshal file header")
+		return nil, fmt.Errorf("marshal file header: %w", err)
 	}
 
 	if err := e.encodeBlockToBlob(encodedHeader, blobTypeHeader); err != nil {
-		return nil, errors.WithMessagef(err, "encode blob header")
+		return nil, fmt.Errorf("encode blob header: %w", err)
 	}
 	return e.errs, nil
 }
@@ -209,7 +208,7 @@ func (e *Encoder) Flush(memberType MemberType) {
 			e.logger.Printf("%s, the flush have been closed, panic:%+v", logTag, res)
 		}
 	}()
-	//make sure to flush data before append a new element
+	// make sure to flush data before append a new element
 	switch memberType {
 	case NodeType:
 		done := make(chan struct{})
@@ -235,10 +234,10 @@ func (e *Encoder) encodeBlockToBlob(p []byte, blobType string) error {
 		var b bytes.Buffer
 		w := zlib.NewWriter(&b)
 		if _, err := w.Write(p); err != nil {
-			return errors.WithMessage(err, "compress block")
+			return fmt.Errorf("compress block: %w", err)
 		}
 		if err := w.Close(); err != nil {
-			return errors.WithMessage(err, "close zlib writer")
+			return fmt.Errorf("close zlib writer: %w", err)
 		}
 		blob.ZlibData = b.Bytes()
 	} else {
@@ -246,7 +245,7 @@ func (e *Encoder) encodeBlockToBlob(p []byte, blobType string) error {
 	}
 	encodedBlob, err := proto.Marshal(blob)
 	if err != nil {
-		return errors.WithMessage(err, "marshal blob")
+		return fmt.Errorf("marshal blob: %w", err)
 	}
 
 	blobHeader := &gosmpb.BlobHeader{
@@ -255,20 +254,20 @@ func (e *Encoder) encodeBlockToBlob(p []byte, blobType string) error {
 	}
 	encodedBlobHeader, err := proto.Marshal(blobHeader)
 	if err != nil {
-		return errors.WithMessage(err, "marshal blob header")
+		return fmt.Errorf("marshal blob header: %w", err)
 	}
 
 	blobHeaderSize := uint32(len(encodedBlobHeader))
 	headerLengthInNetworkByte := make([]byte, 4) // uint32 takes 4 bytes
 	binary.BigEndian.PutUint32(headerLengthInNetworkByte, blobHeaderSize)
 	if _, err = e.writer.Write(headerLengthInNetworkByte); err != nil {
-		return errors.WithMessage(err, "write header length")
+		return fmt.Errorf("write header length: %w", err)
 	}
 	if _, err = e.writer.Write(encodedBlobHeader); err != nil {
-		return errors.WithMessage(err, "write blob header")
+		return fmt.Errorf("write blob header: %w", err)
 	}
 	if _, err = e.writer.Write(encodedBlob); err != nil {
-		return errors.WithMessage(err, "write blob")
+		return fmt.Errorf("write blob: %w", err)
 	}
 	return nil
 }
