@@ -27,7 +27,7 @@ const (
 	defaultLimitNumberInOnePrimitiveGroup = 8000
 )
 
-// Encoder ...
+// Encoder contains all the needed context when generating pbf file.
 type Encoder struct {
 	bbox             *gosmpb.HeaderBBox
 	requiredFeatures []string
@@ -59,13 +59,13 @@ type members interface {
 	clear()
 }
 
-// NewEncoderRequiredInput ...
+// NewEncoderRequiredInput contains the required parameters to initialize an encoder
 type NewEncoderRequiredInput struct {
 	RequiredFeatures []string
 	Writer           io.WriteCloser
 }
 
-// NewEncoder initializes an OSM encoder.
+// NewEncoder initializes an OSM pbf encoder.
 func NewEncoder(input *NewEncoderRequiredInput, opts ...Option) *Encoder {
 	encoder := &Encoder{
 		requiredFeatures: input.RequiredFeatures,
@@ -137,8 +137,7 @@ func (e *Encoder) processMembers(membersBufChan chan members, flushChan chan cha
 	}
 }
 
-// Start will write the header file to the writer and
-// start consuming data channel and write to the writer.
+// Start will write the header file to the writer and start consuming data channel and write to the writer.
 func (e *Encoder) Start() (chan error, error) {
 	e.errWg.Add(1)
 	go func() {
@@ -203,7 +202,7 @@ func (e *Encoder) Close() error {
 	return e.writer.Close()
 }
 
-// Flush ...
+// Flush consume the remaining data from the buffer immediately and writes to the pbf file.
 func (e *Encoder) Flush(memberType MemberType) {
 	defer func() {
 		if res := recover(); res != nil {

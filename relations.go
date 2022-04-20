@@ -6,7 +6,7 @@ package gosm
 
 import "gosm/gosmpb"
 
-// Relation ...
+// Relation is the struct for OSM relation.
 type Relation struct {
 	ID      int64
 	Tags    map[string]string
@@ -14,7 +14,7 @@ type Relation struct {
 	Info    gosmpb.Info
 }
 
-// MemberType ...
+// MemberType enum
 type MemberType int
 
 const (
@@ -26,14 +26,14 @@ const (
 	RelationType
 )
 
-// Member ...
+// Member is used to describe the entity in one relation.
 type Member struct {
 	ID   int64
 	Type MemberType
 	Role string
 }
 
-// AppendRelations ...
+// AppendRelations writes the relation data to the buffer.
 func (e *Encoder) AppendRelations(relations []*Relation) {
 	e.relationsBuf <- &relationMembers{
 		rs: relations,

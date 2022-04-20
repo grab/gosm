@@ -6,14 +6,14 @@ package gosm
 
 import "gosm/gosmpb"
 
-// Way ...
+// Way is the OSM way struct.
 type Way struct {
 	ID      int64
 	Tags    map[string]string
 	NodeIDs []int64
 }
 
-// AppendWays ...
+// AppendWays writes OSM way data to buffer.
 func (e *Encoder) AppendWays(ways []*Way) {
 	e.waysBuf <- &wayMembers{
 		ws: ways,

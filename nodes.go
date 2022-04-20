@@ -8,7 +8,7 @@ import (
 	"gosm/gosmpb"
 )
 
-// Node ...
+// Node is the struct for OSM node.
 type Node struct {
 	ID        int64
 	Latitude  float64
@@ -16,8 +16,7 @@ type Node struct {
 	Tags      map[string]string
 }
 
-// AppendNodes will append nodes to the buffer, when it meets the limit(8000 entities or 32MB)
-// it will convert the nodes to dense nodes and write to the writer.
+// AppendNodes will append nodes to the buffer, when it meets the limit(8000 entities or 32MB) it will convert the nodes to dense nodes and write to the writer.
 func (e *Encoder) AppendNodes(nodes []*Node) {
 	e.nodesBuf <- &nodeMembers{
 		ns: nodes,
