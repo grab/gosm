@@ -162,6 +162,7 @@ You can replace oriNodes, oriWays, oriRelations with your own data.
 # Notes
 1. When you use `AppendNodes`, `AppendWays` or `AppendRelations`, at most 8000 items are allowed in one append operation
 2. Use `encoder.Flush(memberType MemberType)` when you finished writing of one member type.
+3. Please pay attention to ensure the writing order of the data, otherwise the parsing will fail. The correct order is: nodes, ways, relations
 
 # Contributing
 Please raise an issue with your problem or new ideas. MRs are not accepted so far.
